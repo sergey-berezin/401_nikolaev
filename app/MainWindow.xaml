@@ -1,0 +1,57 @@
+﻿<Window x:Class="GeneticApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeneticApplication"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="#b2dbd1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="23*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle HorizontalAlignment="Left" Height="20" Margin="30,54,0,0" Stroke="Black" Fill="#43e534" VerticalAlignment="Top" Width="20"/>
+        <Rectangle HorizontalAlignment="Left" Height="40" Margin="20,88,0,0" Stroke="Black" Fill="#3443e5" VerticalAlignment="Top" Width="40"/>
+        <Rectangle HorizontalAlignment="Left" Height="60" Margin="10,138,0,0" Stroke="Black" Fill="#e53443" VerticalAlignment="Top" Width="60"/>
+
+        <Slider Name="Slider1" HorizontalAlignment="Left" Margin="95,55,0,0" VerticalAlignment="Top" Width="120" Height="39"             AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Ticks="0,1,2,3,4,5,6,7,8,9,10" TickPlacement="BottomRight"/>
+        <Slider Name="Slider2" HorizontalAlignment="Left" Margin="95,99,0,0" VerticalAlignment="Top" Width="120" Height="29" Maximum="8" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6, 7, 8"/>
+        <Slider Name="Slider3" HorizontalAlignment="Left" Margin="95,154,0,0" VerticalAlignment="Top" Width="120" Height="28" Maximum="6" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6" Value="-5"/>
+
+        <Button Content="Start" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Start_Button_Click"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="128,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Stop_Button_Click" />
+
+        <Label Content="Set numbers of units and press Start" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="205"/>
+
+
+        <ItemsControl ItemsSource="{Binding Path=Rects}" Background="White" x:Name="Host" Grid.Column="1" Margin="10, 10, 10, 10">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Width="{Binding Width}" Height="{Binding Height}"
+                       Stroke="Black" Fill="{Binding Color}" StrokeThickness="1"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Label Name="Label1" Content="Width" HorizontalAlignment="Left" Height="26" Margin="23,296,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label Name="Label2" Content="Height" HorizontalAlignment="Left" Height="26" Margin="23,327,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label Name="Label3" Content="Square" HorizontalAlignment="Left" Height="26" Margin="23,358,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label Name="Label7" Content="Epochs" HorizontalAlignment="Left" Height="26" Margin="23,384,0,0" VerticalAlignment="Top" Width="54"/>
+
+        <Label Name="Label4" Content="{Binding TotalWidth}" HorizontalAlignment="Left" Height="26" Margin="128,295,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label Name="Label5" Content="{Binding TotalHeight}" HorizontalAlignment="Left" Height="26" Margin="128,327,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label Name="Label6" Content="{Binding TotalSquare}" HorizontalAlignment="Left" Height="26" Margin="128,358,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label Name="Label8" Content="{Binding Epochs}" HorizontalAlignment="Left" Height="26" Margin="128,384,0,0" VerticalAlignment="Top" Width="54"/>
+    </Grid>
+</Window>
