@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,8 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-// using GeneticAlgorithm;
 using GeneticSquares;
+
+/*
+ * long running task                +
+ * заблокировать кнопку старта      +
+ * убрать папку 
+ * промежуточные визуализации
+ */
 
 namespace GeneticApplication
 {
@@ -36,7 +43,6 @@ namespace GeneticApplication
             public int TotalHeight { get; set; }
             public int TotalSquare { get; set; }
             public int Epochs { get; set; }
-            public bool Active { get; set; } = false;
             public List<Rect> Rects { get; set; } = new List<Rect>();
 
             public CancellationTokenSource cancellationToken;
@@ -118,35 +124,24 @@ namespace GeneticApplication
             DataContext = data;
         }
 
-        public static Population Evolution(int[] nums, int size = 100, int epochs = 1000)
-        {
-            Population population = new(size, nums);
-            for (int i = 0; i < epochs; ++i)
-            {
-                population.Evolve();
-            }
-
-            return population;
-        }
-
         private async void Processing()
         {
 
             int[] nums = { data.A, data.B, data.C };
             if (data.A == 0 && data.B == 0 && data.C == 0) { return; }
             data.Epochs = 0;
-            data.Active = true;
             Population population = new(100, nums);
 
-            var task = Task.Factory.StartNew(() =>
+            var task = Task.Factory.StartNew(async (o) =>
             {
                 while(data.Epochs < 100000)
                 {
                     population.Evolve();
                     data.Epochs += 1;
                     if (data.cancellationToken.IsCancellationRequested) {  break; }
+                    // if (data.Epochs % 1000 == 0) { Render(population.Members[0]); }
                 }
-            }, data.cancellationToken.Token);
+            }, TaskCreationOptions.LongRunning, data.cancellationToken.Token);
 
             await task;
             Individual indi = population.Members[0];
@@ -154,24 +149,16 @@ namespace GeneticApplication
         }
         private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
+            BStart.IsEnabled = false;
+            BStop.IsEnabled = true;
             data.cancellationToken = new CancellationTokenSource();
             Processing();
         }
         private void Stop_Button_Click(object sender, RoutedEventArgs e)
         {
+            BStart.IsEnabled = true;
+            BStop.IsEnabled = false;
             if (data.cancellationToken != null) data.cancellationToken.Cancel();
-        }
-        
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            data.Active = true;
         }
     }
 }
-
-
-
-// задача вычисляет квадраты чисел
-
-
