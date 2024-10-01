@@ -19,8 +19,8 @@
         <Slider Name="Slider2" HorizontalAlignment="Left" Margin="95,99,0,0" VerticalAlignment="Top" Width="120" Height="29" Maximum="8" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6, 7, 8"/>
         <Slider Name="Slider3" HorizontalAlignment="Left" Margin="95,154,0,0" VerticalAlignment="Top" Width="120" Height="28" Maximum="6" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6" Value="-5"/>
 
-        <Button Content="Start" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Start_Button_Click"/>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="128,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Stop_Button_Click" />
+        <Button Name="BStart" Content="Start" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Start_Button_Click"/>
+        <Button Name="BStop" Content="Stop" HorizontalAlignment="Left" Margin="128,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Stop_Button_Click" />
 
         <Label Content="Set numbers of units and press Start" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="205"/>
 
