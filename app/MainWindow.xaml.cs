@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,41 +14,15 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using GeneticSquares;
+using static GeneticApplication.MainWindow;
 
-/*
- * long running task                +
- * заблокировать кнопку старта      +
- * убрать папку 
- * промежуточные визуализации
- */
+
 
 namespace GeneticApplication
 {
     public partial class MainWindow : Window
-    {
-        public class Rect(double x, double y, double w, double h, string color)
-        {
-            public double X { get; set; } = x;
-            public double Y { get; set; } = y;
-            public double Width { get; set; } = w;
-            public double Height { get; set; } = h;
-            public string Color { get; set; } = color;
-        }
-        public class Data(int a, int b, int c)
-        {
-            public int A { get; set; } = a;
-            public int B { get; set; } = b;
-            public int C { get; set; } = c;
-
-            public int TotalWidth { get; set; }
-            public int TotalHeight { get; set; }
-            public int TotalSquare { get; set; }
-            public int Epochs { get; set; }
-            public List<Rect> Rects { get; set; } = new List<Rect>();
-
-            public CancellationTokenSource cancellationToken;
-        }
-        public Data data;
+    {        
+        public Data data = new(0, 0, 0);
         public void Bind()
         {
             Binding Slider1Bind = new()
@@ -70,12 +45,11 @@ namespace GeneticApplication
                 Path = new PropertyPath("C")
             };
             Slider3.SetBinding(Slider.ValueProperty, Slider3Bind);
-
         }
+
         public MainWindow()
         {
-            InitializeComponent();
-            data = new(0, 0, 0);
+            InitializeComponent(); 
             Bind();
             DataContext = data;
         }
@@ -126,33 +100,55 @@ namespace GeneticApplication
 
         private async void Processing()
         {
-
-            int[] nums = { data.A, data.B, data.C };
-            if (data.A == 0 && data.B == 0 && data.C == 0) { return; }
-            data.Epochs = 0;
-            Population population = new(100, nums);
-
-            var task = Task.Factory.StartNew(async (o) =>
+            while (data.Epochs < 100000)
             {
-                while(data.Epochs < 100000)
+                Task task = Task.Factory.StartNew((o) =>
                 {
-                    population.Evolve();
-                    data.Epochs += 1;
-                    if (data.cancellationToken.IsCancellationRequested) {  break; }
-                    // if (data.Epochs % 1000 == 0) { Render(population.Members[0]); }
-                }
-            }, TaskCreationOptions.LongRunning, data.cancellationToken.Token);
+                    do
+                    {
+                        data.BestPopulation.Evolve100Async();
+                        data.Epochs += 100;
+                        if (data.cancellationToken.IsCancellationRequested) { break; }
+                    } while (data.Epochs % 100 != 0);
 
-            await task;
-            Individual indi = population.Members[0];
-            Render(indi);
+                }, TaskCreationOptions.LongRunning, data.cancellationToken.Token);
+
+                try
+                {
+                    await task;
+                }
+                catch (Exception ex) 
+                {
+                    Individual i = data.BestPopulation.Members[0];
+                    Render(i);
+                    return;
+                }
+                Individual indi = data.BestPopulation.Members[0];
+                Render(indi);
+            }
         }
         private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
-            BStart.IsEnabled = false;
-            BStop.IsEnabled = true;
-            data.cancellationToken = new CancellationTokenSource();
-            Processing();
+            int[] nums = { data.A, data.B, data.C };
+            if (data.A == 0 && data.B == 0 && data.C == 0) 
+            {
+                return;
+            } else if (nums.SequenceEqual(data.BestPopulation.nums))
+            {
+                BStart.IsEnabled = false;
+                BStop.IsEnabled = true;
+                data.cancellationToken = new CancellationTokenSource();
+                Processing();
+            } else
+            {
+                BStart.IsEnabled = false;
+                BStop.IsEnabled = true;
+                data.Epochs = 0;
+                data.BestPopulation = new(100, nums);
+                data.cancellationToken = new CancellationTokenSource();
+                Processing();
+            }
+
         }
         private void Stop_Button_Click(object sender, RoutedEventArgs e)
         {
