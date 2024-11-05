@@ -68,11 +68,11 @@ namespace GeneticSquares
         public async void Evolve100Async()
         {
             Random randomizer = new();
-            uint numThreads = (uint)Environment.ProcessorCount;
+            uint numPopulations = 10;
 
             List<Task> TaskList = [];
 
-            for (int i = 0; i < numThreads; ++i)
+            for (int i = 0; i < numPopulations; ++i)
             {
                 Task<Population> task = Task<Population>.Factory.StartNew(() =>
                 {
