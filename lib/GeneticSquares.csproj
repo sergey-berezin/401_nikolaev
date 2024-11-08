@@ -14,17 +14,15 @@
     <PackageTags>Genetic, Algorythm, Squares, Packing problem</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\OneDrive\Рабочий стол\sq.jpg">
+    <None Update="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="README.md">
+    <None Update="sq.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

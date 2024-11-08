@@ -53,31 +53,43 @@ namespace GeneticSquares
             }
         }
 
-        public Individual(Individual indi, double p = 0.5)
+        public Individual(Individual indi)
         {
             nums = indi.nums;
-            Genom = new List<Gen>();
+            Genom = [];
             int min = 0;
             int max = nums[0] + nums[1] * 2 + nums[2] * 3;
             Random randomizer = new();
             for (int i = 0; i < indi.Genom.Count; ++i)
             {
                 double x = randomizer.NextDouble();
-                if (x < p)
+                if (x < 0.33)
                 {
                     Genom.Add(indi.Genom[i]);
                 }
+                else if(x < 0.66){
+                    Gen gen = new(randomizer.Next(min, max), randomizer.Next(min, max), indi.Genom[i].size);
+                    Genom.Add(gen);
+                }
                 else
                 {
-                    Gen gen = new Gen(randomizer.Next(min, max), randomizer.Next(min, max), indi.Genom[i].size);
+                    int new_width = indi.Genom[i].width + randomizer.Next(-1, 1);
+                    if (0 > new_width || new_width > max)
+                    {
+                        new_width = indi.Genom[i].width;
+                    }
+                    int new_height = indi.Genom[i].height + randomizer.Next(-1, 1);
+                    if (0 > new_height || new_height > max)
+                    {
+                        new_height = indi.Genom[i].height;
+                    }
+                    Gen gen = new Gen(new_width, new_height, indi.Genom[i].size);
                     Genom.Add(gen);
                 }
             }
         }
 
-
-
-        public Individual(Individual indi1, Individual indi2, double p = 0.5)
+        public Individual(Individual indi1, Individual indi2)
         {
             nums = indi1.nums;
             Genom = new List<Gen>();
@@ -85,7 +97,7 @@ namespace GeneticSquares
             for (int i = 0; i < indi1.Genom.Count; ++i)
             {
                 double x = randomizer.NextDouble();
-                if (x < p)
+                if (x < 0.5)
                 {
                     Genom.Add(indi1.Genom[i]);
                 }
