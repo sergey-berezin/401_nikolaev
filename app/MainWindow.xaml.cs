@@ -16,41 +16,14 @@ using System.Windows.Shapes;
 using GeneticSquares;
 using static GeneticApplication.MainWindow;
 
-
-
 namespace GeneticApplication
 {
     public partial class MainWindow : Window
-    {        
-        public Data data = new(0, 0, 0);
-        public void Bind()
-        {
-            Binding Slider1Bind = new()
-            {
-                Source = data,
-                Path = new PropertyPath("A")
-            };
-            Slider1.SetBinding(Slider.ValueProperty, Slider1Bind);
-
-            Binding Slider2Bind = new()
-            {
-                Source = data,
-                Path = new PropertyPath("B")
-            };
-            Slider2.SetBinding(Slider.ValueProperty, Slider2Bind);
-
-            Binding Slider3Bind = new()
-            {
-                Source = data,
-                Path = new PropertyPath("C")
-            };
-            Slider3.SetBinding(Slider.ValueProperty, Slider3Bind);
-        }
-
+    {
+        public Data data = new Data() { A = 0, B = 0, C = 0, BestPopulation = new(10000, [0, 0, 0]) };
         public MainWindow()
         {
             InitializeComponent(); 
-            Bind();
             DataContext = data;
         }
 
@@ -136,12 +109,16 @@ namespace GeneticApplication
             } else if (nums.SequenceEqual(data.BestPopulation.nums))
             {
                 BStart.IsEnabled = false;
+                BSave.IsEnabled = false;
+                BLoad.IsEnabled = false;
                 BStop.IsEnabled = true;
                 data.cancellationToken = new CancellationTokenSource();
                 Processing();
             } else
             {
                 BStart.IsEnabled = false;
+                BSave.IsEnabled = false;
+                BLoad.IsEnabled = false;
                 BStop.IsEnabled = true;
                 data.Epochs = 0;
                 data.BestPopulation = new(100, nums);
@@ -153,8 +130,40 @@ namespace GeneticApplication
         private void Stop_Button_Click(object sender, RoutedEventArgs e)
         {
             BStart.IsEnabled = true;
+            BSave.IsEnabled = true;
+            BLoad.IsEnabled = true;
             BStop.IsEnabled = false;
             if (data.cancellationToken != null) data.cancellationToken.Cancel();
+        }
+
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            SaveWindow passwordWindow = new SaveWindow();
+            if (passwordWindow.ShowDialog() == true)
+            {
+                // MessageBox.Show("Saved");
+            }
+            else
+            {
+                // MessageBox.Show("Saving aborted");
+            }
+        }
+
+        private void Load_Button_Click(object sender, RoutedEventArgs e)
+        {
+            BSave.IsEnabled = true;
+
+            LoadWindow passwordWindow = new LoadWindow();
+
+            if (passwordWindow.ShowDialog() == true)
+            {
+                // MessageBox.Show("Loaded");
+                Render(data.BestPopulation.Members[0]);
+            }
+            else
+            {
+                //MessageBox.Show("Loading aborted");
+            }
         }
     }
 }
