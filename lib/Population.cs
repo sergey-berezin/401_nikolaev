@@ -24,9 +24,10 @@ namespace GeneticSquares
     }
     public class Population
     {
-        public int size;
-        public List<Individual> Members;
-        public int[] nums;
+        public int size { get; set; }
+        public List<Individual> Members { get; set; }
+        public int[] nums { get; set; }
+        public Population() { }
         public Population(int size, int[] nums)
         {
             this.size = size;

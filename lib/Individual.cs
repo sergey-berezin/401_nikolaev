@@ -8,8 +8,9 @@ namespace GeneticSquares
 {
     public class Individual
     {
-        public int[] nums;
-        public List<Gen> Genom;
+        public int[] nums { get; set; }
+        public List<Gen> Genom { get; set; }
+        public Individual() { }
         public int Fitness()
         {
             int INF = 1000000000;

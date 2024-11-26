@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GeneticApplication"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Background="#b2dbd1">
+    <Grid Background="#FF55B2B5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*"/>
             <ColumnDefinition Width="23*"/>
@@ -15,12 +15,14 @@
         <Rectangle HorizontalAlignment="Left" Height="40" Margin="20,88,0,0" Stroke="Black" Fill="#3443e5" VerticalAlignment="Top" Width="40"/>
         <Rectangle HorizontalAlignment="Left" Height="60" Margin="10,138,0,0" Stroke="Black" Fill="#e53443" VerticalAlignment="Top" Width="60"/>
 
-        <Slider Name="Slider1" HorizontalAlignment="Left" Margin="95,55,0,0" VerticalAlignment="Top" Width="120" Height="39"             AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Ticks="0,1,2,3,4,5,6,7,8,9,10" TickPlacement="BottomRight"/>
-        <Slider Name="Slider2" HorizontalAlignment="Left" Margin="95,99,0,0" VerticalAlignment="Top" Width="120" Height="29" Maximum="8" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6, 7, 8"/>
-        <Slider Name="Slider3" HorizontalAlignment="Left" Margin="95,154,0,0" VerticalAlignment="Top" Width="120" Height="28" Maximum="6" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6" Value="-5"/>
+        <Slider Name="Slider1" Value="{Binding A, Mode=TwoWay}" HorizontalAlignment="Left" Margin="95,55,0,0" VerticalAlignment="Top" Width="120" Height="39"             AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Ticks="0,1,2,3,4,5,6,7,8,9,10" TickPlacement="BottomRight"/>
+        <Slider Name="Slider2" Value="{Binding B, Mode=TwoWay}" HorizontalAlignment="Left" Margin="95,99,0,0" VerticalAlignment="Top" Width="120" Height="29" Maximum="8" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6, 7, 8"/>
+        <Slider Name="Slider3" Value="{Binding C, Mode=TwoWay}" HorizontalAlignment="Left" Margin="95,154,0,0" VerticalAlignment="Top" Width="120" Height="28" Maximum="6" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Ticks="0, 1, 2, 3, 4, 5, 6"/>
 
-        <Button Name="BStart" Content="Start" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Start_Button_Click"/>
-        <Button Name="BStop" Content="Stop" HorizontalAlignment="Left" Margin="128,217,0,0" VerticalAlignment="Top" Height="59" Width="85" Click="Stop_Button_Click" />
+        <Button Name="BStart" Content="Start" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" Height="30" Width="100" Click="Start_Button_Click"/>
+        <Button Name="BStop" Content="Stop" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top" Height="30" Width="100" Click="Stop_Button_Click" IsEnabled="False"/>
+        <Button Name="BSave" Content="Save" HorizontalAlignment="Left" Margin="125,217,0,0" VerticalAlignment="Top" Height="30" Width="100" Click="Save_Button_Click" IsEnabled="False"/>
+        <Button Name="BLoad" Content="Load" HorizontalAlignment="Left" Margin="125,258,0,0" VerticalAlignment="Top" Height="30" Width="100" Click="Load_Button_Click" />
 
         <Label Content="Set numbers of units and press Start" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="205"/>
 
